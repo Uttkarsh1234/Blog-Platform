@@ -4,6 +4,7 @@ secret.txt
 package-lock.json
 package.json
 mongodb/
+.gitignore
 
 # Ignore all .env files
 *.env
