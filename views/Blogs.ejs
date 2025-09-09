@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    header {
+      background-color: #60a3de;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      padding: 2rem;
+      gap: 2rem;
+    }
+    nav {
+      width: 220px;
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 0 10px #ddd;
+      border-radius: 8px;
+      height: fit-content;
+    }
+    nav a {
+      display: block;
+      color: #4a90e2;
+      padding: 0.8rem 0;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      flex-grow: 1;
+      background: white;
+      padding: 2rem;
+      box-shadow: 0 0 10px #ddd;
+      border-radius: 8px;
+    }
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stats > div {
+      flex: 1;
+      background-color: #6da4e4;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    section h2 {
+      margin-bottom: 1rem;
+    }
+    .recent-posts table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .recent-posts th, .recent-posts td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    .recent-posts tr:hover {
+      background-color: #f0f4ff;
+    }
+  </style>
+</head>
+<body>
+  <header>Blog Dashboard</header>
+  <div class="container">
+    <nav>
+      <a href="#">Overview</a>
+      <a href="#">Create Post</a>
+      <a href="#">Manage Posts</a>
+      <a href="#">Analytics</a>
+      <a href="#">Comments</a>
+      <a href="#">Settings</a>
+    </nav>
+    <main>
+      <div class="stats">
+        <div>Total Views<br />12,456</div>
+        <div>Posts Published<br />34</div>
+        <div>Subscribers<br />2,145</div>
+      </div>
+      <section class="recent-posts">
+        <h2>Recent Posts</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>How to Learn JavaScript</td>
+              <td>Sep 1, 2025</td>
+              <td>Published</td>
+            </tr>
+            <tr>
+              <td>Understanding Async/Await</td>
+              <td>Aug 28, 2025</td>
+              <td>Draft</td>
+            </tr>
+            <tr>
+              <td>CSS Grid vs Flexbox</td>
+              <td>Aug 25, 2025</td>
+              <td>Published</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
