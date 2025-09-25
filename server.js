@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const Usermodel = require("./mongodb/mongo");
+const model = require("./mongodb/mongo2");
 const bcrypt = require('bcrypt');
 const cookie = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -14,9 +15,18 @@ app.set('view engine','ejs');
 app.get("/",(req,res)=>{
     res.render("index");
 })
-app.get("/blogs",(req,res)=>{
-    res.render("Blogs");
+app.get("/blogs",async (req,res)=>{
+    const blogs = await model.find().sort({ date: 1 }); // fetch from DB, newest first
+    res.render("Blogs", { blogs }); // pass blogs to EJS template
 })
+app.get("/blogs/new",(req,res)=>{
+    res.render("newBlog");
+})
+
+app.get("/signuppage",(req,res)=>{
+    res.render("signup");
+})
+
 app.get("/login",async (req,res)=>{
     const user = await Usermodel.findOne({email: req.query.logemail});
     if(!user){
@@ -25,14 +35,13 @@ app.get("/login",async (req,res)=>{
     else{
         bcrypt.compare(req.query.logpassword,user.password,(err,result)=>{
             if(result){
-                return res.send("Login Successfull");
+                return res.redirect("/blogs");
             }
             else{
                 res.send("Something went wrong");           
             }
         });
     }
-    
 })
 
 app.post("/signup",(req,res)=>{
@@ -45,8 +54,19 @@ app.post("/signup",(req,res)=>{
             })
             let token = jwt.sign({email: req.body.email},'sshetuojslkdeuffvmdhfvnefjveu');
             res.cookie("token", token);
-            res.redirect("/");
+            res.redirect("/blogs");
         })
     })
 })
+
+app.post("/blogs/create",async (req,res)=>{
+    let user = await model.create({
+        title: req.body.title,
+        content: req.body.content,
+        author: req.body.author,
+        date: req.body.date
+    })
+    res.redirect("/blogs");
+})
+
 app.listen(3000);

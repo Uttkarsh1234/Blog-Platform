@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Blog</title>
+  <link rel="stylesheet" href="/stylesheets/style3.css">
+</head>
+<body>
+  <!-- Create Blog Form -->
+  <section class="form-section">
+    <div class="form-container">
+      <h2>Create a New Blog</h2>
+      <form action="/blogs/create" method="POST" class="blog-form">
+        <!-- Title -->
+        <div class="form-group">
+          <label for="title">Blog Title</label>
+          <input type="text" id="title" name="title" required placeholder="Enter blog title">
+        </div>
+
+        <!-- Author -->
+        <div class="form-group">
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" required placeholder="Your name">
+        </div>
+
+        <!-- Content -->
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea id="content" name="content" rows="6" required placeholder="Write your blog here..."></textarea>
+        </div>
+
+        <!-- Date -->
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Publish Blog</button>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
