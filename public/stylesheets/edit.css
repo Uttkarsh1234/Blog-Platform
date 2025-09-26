@@ -1,0 +1,67 @@
+/* Edit Author form uses same styling as create blog */
+.form-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: #f4f6f9;
+  padding-top: 4rem;
+}
+
+.form-container {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.blog-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.blog-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.blog-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.blog-form input:focus {
+  border-color: #0d6efd;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  background: #0d6efd;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-submit:hover {
+  background: #0b5ed7;
+}

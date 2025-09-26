@@ -15,16 +15,23 @@ app.set('view engine','ejs');
 app.get("/",(req,res)=>{
     res.render("index");
 })
+
 app.get("/blogs",async (req,res)=>{
     const blogs = await model.find().sort({ date: 1 }); // fetch from DB, newest first
     res.render("Blogs", { blogs }); // pass blogs to EJS template
 })
+
 app.get("/blogs/new",(req,res)=>{
     res.render("newBlog");
 })
 
 app.get("/signuppage",(req,res)=>{
     res.render("signup");
+})
+
+app.get("/blogs/:ed/edit",async (req,res)=>{
+    const upd = await model.findOne({_id: req.params.ed});
+    res.render("edit",{ upd });
 })
 
 app.get("/login",async (req,res)=>{
@@ -66,6 +73,16 @@ app.post("/blogs/create",async (req,res)=>{
         author: req.body.author,
         date: req.body.date
     })
+    res.redirect("/blogs");
+})
+
+
+app.post("/blogs/:update",async (req,res)=>{
+    const update = await model.findOneAndUpdate({_id: req.params.update},
+        {
+            author: req.body.author
+        }
+    );
     res.redirect("/blogs");
 })
 
