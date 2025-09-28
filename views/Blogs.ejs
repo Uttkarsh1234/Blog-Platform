@@ -9,16 +9,21 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="container nav-container">
-      <a class="logo">MyBlog</a>
+    <div class="nav-container">
+      <h1 class="logo">MyBlog</h1>
       <ul class="nav-links">
-        <li><a href="/blogs">Home</a></li>
-        <li><a href="/">About</a></li>
-        <li><a href="/blogs/new" class="btn-login">Create Blog</a></li>
-        <li><a href="/signuppage" class="btn-login">Login</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blogs">Blogs</a></li>
+        <% if (user) { %>
+          <li><a href="/blogs/new">Create Blog</a></li>
+          <li><a href="/blogs" class="btn-login">Logout</a></li>
+        <% } else { %>
+          <li><a href="/signuppage" class="btn-login">Login</a></li>
+        <% } %>
       </ul>
     </div>
   </nav>
+
 
   <!-- Hero Section -->
   <header class="hero">
@@ -54,7 +59,7 @@
 
                   <div class="modal-actions">
                     <a href="/blogs/<%= blog._id %>/edit" class="btn-edit">Edit</a>
-                    <form action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <form action="/blogs/<%= blog._id %>/delete" style="display:inline;">
                       <button type="submit" class="btn-delete">Delete</button>
                     </form>
                   </div>
@@ -62,7 +67,15 @@
               </div>
           <% }) %>
       <% } else{ %>
-        <h2 class="section-title">No Blogs Available</h2>
+         <div class="image-slider">
+            <div class="slider-track">
+              <img src="https://picsum.photos/300/200?random=1" alt="Random">
+              <img src="https://picsum.photos/300/200?random=2" alt="Random">
+              <img src="https://picsum.photos/300/200?random=3" alt="Random">
+              <img src="https://picsum.photos/300/200?random=4" alt="Random">
+              <img src="https://picsum.photos/300/200?random=5" alt="Random">
+            </div>
+          </div>
       <% } %>
     </div>
   </main>
