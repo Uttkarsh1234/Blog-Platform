@@ -15,3 +15,15 @@ window.onclick = function(event) {
     });
 }
 
+function toggleProfileMenu() {
+document.getElementById("profileDropdown").classList.toggle("show");
+}
+
+  // Close dropdown if click outside
+window.addEventListener("click", function(e) {
+const dropdown = document.getElementById("profileDropdown");
+const icon = document.querySelector(".profile-icon");
+if (dropdown && !dropdown.contains(e.target) && !icon.contains(e.target)) {
+    dropdown.classList.remove("show");
+}
+});

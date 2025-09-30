@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const Usermodel = require("./mongodb/mongo");   // User model
-const Blog = require("./mongodb/mongo2");       // Blog model
+const Usermodel = require("./models/mongo");   // User model
+const Blog = require("./models/mongo2");       // Blog model
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const requireAuth = require('./middleware/auth.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +39,9 @@ app.set('view engine', 'ejs');
 
 // Home
 app.get("/", (req, res) => {
+  if(req.user){
+    return res.redirect("/blogs");
+  }
   res.render("index");
 });
 
@@ -51,8 +55,7 @@ app.get("/blogs", async (req, res) => {
 });
 
 // New blog form
-app.get("/blogs/new", (req, res) => {
-  if (!req.user) return res.redirect("/signuppage");
+app.get("/blogs/new",requireAuth, (req, res) => {
   res.render("newBlog");
 });
 
@@ -108,9 +111,7 @@ app.post("/signup", (req, res) => {
 });
 
 // Create new blog
-app.post("/blogs/create", async (req, res) => {
-  if (!req.user) return res.redirect("/signuppage");
-
+app.post("/blogs/create",requireAuth, async (req, res) => {
   await Blog.create({
     title: req.body.title,
     content: req.body.content,
@@ -124,6 +125,7 @@ app.post("/blogs/create", async (req, res) => {
 
 // Update blog (only author field in your case)
 app.post("/blogs/:update", async (req, res) => {
+  if (!req.user) return res.redirect("/signuppage");
   await Blog.findOneAndUpdate(
     { _id: req.params.update },
     { author: req.body.author }
@@ -134,7 +136,7 @@ app.post("/blogs/:update", async (req, res) => {
 // Logout
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
-  res.redirect("/");
+  res.redirect("/blogs");
 });
 
 // ---------- Server ----------
