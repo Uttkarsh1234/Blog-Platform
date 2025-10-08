@@ -6,46 +6,77 @@ const Blog = require("./models/mongo2");       // Blog model
 const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-const requireAuth = require('./middleware/auth.js');
+const session = require("express-session");
+const passport = require("passport");
+require("dotenv").config();
+require("./config/passport"); // your Google OAuth strategy file
 
+// ---------- Middleware Setup ----------
+app.use(session({
+  secret: "mysecret",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 
-// JWT middleware to check logged-in user
+// ---------- JWT + OAuth Combined Middleware ----------
 app.use(async (req, res, next) => {
-  const token = req.cookies.token;
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, 'sshetuojslkdeuffvmdhfvnefjveu');
-      const user = await Usermodel.findOne({ email: decoded.email });
-      req.user = user;             // attach user to req
-      res.locals.user = user;      // available in EJS
-    } catch (err) {
+  // 1️⃣ JWT-based user check
+  res.locals.user = null;
+  try{
+    const token = req.cookies.token;
+    if (token) {
+          const decoded = jwt.verify(token, 'sshetuojslkdeuffvmdhfvnefjveu');
+          const user = await Usermodel.findOne({ email: decoded.email });
+          req.user = user;
+          res.locals.user = user;
+          if (user) {
+            req.user = user;
+            res.locals.user = user;
+            return next();
+          }
+      }
+      if (req.isAuthenticated && req.isAuthenticated()) {
+        req.user = req.user || req.session.passport?.user;
+        res.locals.user = req.user;
+      }
+  }catch(err){
       req.user = null;
       res.locals.user = null;
-    }
-  } else {
-    req.user = null;
-    res.locals.user = null;
   }
+
+  // 2️⃣ OAuth-based user check
+
   next();
 });
 
 app.set('view engine', 'ejs');
 
-// ---------- Routes ----------
+// ---------- GOOGLE OAUTH ROUTES ----------
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-// Home
-app.get("/", (req, res) => {
-  if(req.user){
-    return res.redirect("/blogs");
+app.get("/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/signuppage" }),
+  (req, res) => {
+    res.redirect("/blogs"); // after successful login
   }
+);
+
+// ---------- ROUTES ----------
+
+// Home Page
+app.get("/", (req, res) => {
+  if (req.user) return res.redirect("/blogs");
   res.render("index");
 });
 
-// All blogs (only if logged in)
+// Blogs Page
 app.get("/blogs", async (req, res) => {
   let blogs = [];
   if (req.user) {
@@ -54,64 +85,65 @@ app.get("/blogs", async (req, res) => {
   res.render("Blogs", { blogs });
 });
 
-// New blog form
-app.get("/blogs/new",requireAuth, (req, res) => {
+// New Blog Page
+app.get("/blogs/new", (req, res) => {
+  if (!req.user) return res.redirect("/signuppage");
   res.render("newBlog");
 });
 
-// Signup page
+// Signup Page
 app.get("/signuppage", (req, res) => {
   res.render("signup");
 });
 
-// Edit blog
+// Edit Blog
 app.get("/blogs/:ed/edit", async (req, res) => {
   const upd = await Blog.findOne({ _id: req.params.ed });
   res.render("edit", { upd });
 });
 
-// Delete blog
+// Delete Blog
 app.get("/blogs/:del/delete", async (req, res) => {
   await Blog.findOneAndDelete({ _id: req.params.del });
   res.redirect("/blogs");
 });
 
-// Login submit (POST)
+// Login (JWT)
 app.post("/login", async (req, res) => {
   const use = await Usermodel.findOne({ email: req.body.logemail });
-  if (!use) {
-    return res.send("User not found");
-  }
+  if (!use) return res.send("User not found");
 
   bcrypt.compare(req.body.logpassword, use.password, (err, result) => {
     if (result) {
-      let token = jwt.sign({ email: use.email }, 'sshetuojslkdeuffvmdhfvnefjveu');
+      const token = jwt.sign({ email: use.email }, 'sshetuojslkdeuffvmdhfvnefjveu');
       res.cookie("token", token);
-      return res.redirect("/blogs");
+      res.redirect("/blogs");
     } else {
       res.send("Wrong password");
     }
   });
 });
 
-// Signup submit
+// Signup (JWT)
 app.post("/signup", (req, res) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(req.body.password, salt, async (err, hash) => {
-      let user = await Usermodel.create({
+      await Usermodel.create({
         name: req.body.name,
         email: req.body.email,
         password: hash
       });
-      let token = jwt.sign({ email: req.body.email }, 'sshetuojslkdeuffvmdhfvnefjveu');
+      const token = jwt.sign({ email: req.body.email }, 'sshetuojslkdeuffvmdhfvnefjveu');
       res.cookie("token", token);
       res.redirect("/blogs");
     });
   });
 });
 
-// Create new blog
-app.post("/blogs/create",requireAuth, async (req, res) => {
+// Create Blog
+app.post("/blogs/create", async (req, res) => {
+  if (!req.user) return res.redirect("/signuppage");
+
   await Blog.create({
     title: req.body.title,
     content: req.body.content,
@@ -123,7 +155,7 @@ app.post("/blogs/create",requireAuth, async (req, res) => {
   res.redirect("/blogs");
 });
 
-// Update blog (only author field in your case)
+// Update Blog
 app.post("/blogs/:update", async (req, res) => {
   if (!req.user) return res.redirect("/signuppage");
   await Blog.findOneAndUpdate(
@@ -133,13 +165,33 @@ app.post("/blogs/:update", async (req, res) => {
   res.redirect("/blogs");
 });
 
-// Logout
+// ---------- LOGOUT ----------
 app.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/blogs");
+  try {
+    // JWT logout
+    if (req.cookies.token) {
+      res.clearCookie("token");
+    }
+
+    // OAuth logout
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      req.logout(err => {
+        if (err) console.error("Logout error:", err);
+        req.session.destroy(() => {
+          res.redirect("/blogs");
+        });
+      });
+      return;
+    }
+
+    res.redirect("/");
+  } catch (err) {
+    console.error("Logout failed:", err);
+    res.redirect("/blogs");
+  }
 });
 
-// ---------- Server ----------
+// ---------- SERVER ----------
 app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+  console.log("✅ Server running on http://localhost:3000");
 });
