@@ -9,14 +9,26 @@ passport.use(new GoogleStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      let user = await User.findOne({ googleId: profile.id });
-      if (!user) {
-        user = await User.create({
-          googleId: profile.id,
-          name: profile.displayName,
-          email: profile.emails[0].value,
-        });
+      let existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        return done(null, existingUser);
       }
+
+      // Check if a user with same email exists (maybe created via signup form)
+      let userByEmail = await User.findOne({ email: profile.emails[0].value });
+      if (userByEmail) {
+        // Link the Google account with existing user
+        userByEmail.googleId = profile.id;
+        await userByEmail.save();
+        return done(null, userByEmail);
+      }
+      const user = await User.create({
+        googleId: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value,
+      });
+      
       return done(null, user);
     } catch (err) {
       return done(err, null);

@@ -50,7 +50,7 @@
     <div class="blog-list">
       <%if(blogs.length > 0){%>
         <h2 class="section-title">Latest Blogs</h2>
-        <% blogs.forEach(blog => { %>
+        <% blogs.forEach((blog) => { %>
               <div class="blog-card" id="blog-<%= blog._id %>">
                 <h3><%= blog.title %></h3>
                 <p class="blog-meta">By <%= blog.author %> | <%= blog.date.toDateString() %></p>
@@ -70,24 +70,22 @@
                   <p><%= blog.content %></p>
 
                   <div class="modal-actions">
-                    <a href="/blogs/<%= blog._id %>/edit" class="btn-edit">Edit</a>
-                    <form action="/blogs/<%= blog._id %>/delete" style="display:inline;">
-                      <button type="submit" class="btn-delete">Delete</button>
-                    </form>
+                    <% if (user && user._id.toString() === blog.userId.toString()) { %>
+                      <a href="/blogs/<%= blog._id %>/edit" class="btn-edit">Edit</a>
+                      <form action="/blogs/<%= blog._id %>/delete" style="display:inline;">
+                        <button type="submit" class="btn-delete">Delete</button>
+                      </form>
+                  <% } %>
                   </div>
                 </div>
               </div>
           <% }) %>
       <% } else{ %>
-         <div class="image-slider">
-            <div class="slider-track">
-              <img src="https://picsum.photos/300/200?random=1" alt="Random">
-              <img src="https://picsum.photos/300/200?random=2" alt="Random">
-              <img src="https://picsum.photos/300/200?random=3" alt="Random">
-              <img src="https://picsum.photos/300/200?random=4" alt="Random">
-              <img src="https://picsum.photos/300/200?random=5" alt="Random">
-            </div>
-          </div>
+         <div class="no-blogs">
+      <h2>No Blogs Available 📝</h2>
+      <p>Looks like you haven’t created any blogs yet.</p>
+      <a href="/blogs/new" class="btn-create">Create Your First Blog</a>
+    </div>
       <% } %>
     </div>
   </main>

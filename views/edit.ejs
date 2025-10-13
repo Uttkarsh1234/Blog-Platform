@@ -21,12 +21,22 @@
   <!-- Edit Author Form -->
   <section class="form-section">
     <div class="form-container">
-      <h2>Edit Author</h2>
+      <h2>Edit Blog</h2>
       <form action="/blogs/<%= upd._id %>" method="POST" class="blog-form">
         <div class="form-group">
           <label for="author">Author Name</label>
           <input type="text" id="author" name="author" value="<%= upd.author %>" required>
         </div>
+        <div class="radio-group">
+            <label>
+              <input type="radio" name="visibility" value="public" checked>
+              Public
+            </label>
+            <label>
+              <input type="radio" name="visibility" value="private">
+              Private
+            </label>
+        </div><br>
         <button type="submit" class="btn-submit">Update Author</button>
       </form>
     </div>

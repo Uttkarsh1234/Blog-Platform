@@ -230,6 +230,42 @@ body {
   background: #0b5ed7;
 }
 
+.no-blogs {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+}
+
+.no-blogs h2 {
+  color: #243b53;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.no-blogs p {
+  color: #627d98;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-create {
+  display: inline-block;
+  background: #0d6efd;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.btn-create:hover {
+  background: #0b5ed7;
+}
+
 /* Footer */
 .footer {
   text-align: center;

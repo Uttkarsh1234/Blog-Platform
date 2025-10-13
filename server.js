@@ -80,7 +80,14 @@ app.get("/", (req, res) => {
 app.get("/blogs", async (req, res) => {
   let blogs = [];
   if (req.user) {
-    blogs = await Blog.find({ userId: req.user._id }).sort({ date: -1 });
+    blogs = await Blog.find({
+      $or: [
+        { userId: req.user._id },{visibility: "public"}
+      ]
+    }).sort({ date: -1 });
+  }else {
+    // Guest user → show only public blogs
+    blogs = await Blog.find({ visibility: "public" }).sort({ date: -1 });
   }
   res.render("Blogs", { blogs });
 });
@@ -149,7 +156,8 @@ app.post("/blogs/create", async (req, res) => {
     content: req.body.content,
     author: req.body.author,
     date: req.body.date,
-    userId: req.user._id
+    userId: req.user._id,
+    visibility: req.body.visibility
   });
 
   res.redirect("/blogs");
@@ -158,9 +166,14 @@ app.post("/blogs/create", async (req, res) => {
 // Update Blog
 app.post("/blogs/:update", async (req, res) => {
   if (!req.user) return res.redirect("/signuppage");
-  await Blog.findOneAndUpdate(
+  await Blog.updateMany(
     { _id: req.params.update },
-    { author: req.body.author }
+    {
+      $set: {
+        author: req.body.author , 
+        visibility: req.body.visibility 
+      }
+    }
   );
   res.redirect("/blogs");
 });
