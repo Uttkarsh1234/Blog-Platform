@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/about.css">
+    <link rel="stylesheet" href="/stylesheets/animation.css">
+    <link rel="stylesheet" href="/stylesheets/navbar.css">
+</head>
+<%- include("partials/navbar") %>
+
+<body class="page-about">
+  <section class="about-hero fade-in">
+    <div class="about-overlay"></div>
+    <div class="parallax-bg"></div>
+    <div class="about-content">
+      <h1>About <span>MyBlog</span></h1>
+      <p>
+        A place where creativity meets connection. Our platform empowers you to share your stories, ideas, and innovations with the world.
+      </p>
+    </div>
+  </section>
+
+  <section class="about-details slide-up">
+    <div class="container">
+      <h2>Our Mission</h2>
+      <p>
+        At <strong>MyBlog</strong>, we aim to make storytelling effortless and engaging.
+        Whether you are a writer, creator, or enthusiast — we provide a clean, secure,
+        and beautiful platform to express your thoughts publicly or privately.
+      </p>
+
+      <div class="about-features">
+        <div class="feature-card float-in">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User">
+          <h3>User-Focused</h3>
+          <p>We believe in simplicity and comfort for every writer and reader.</p>
+        </div>
+        <div class="feature-card float-in delay-1">
+          <img src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png" alt="Secure">
+          <h3>Secure</h3>
+          <p>Your privacy matters. You control who sees your thoughts.</p>
+        </div>
+        <div class="feature-card float-in delay-2">
+          <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" alt="Community">
+          <h3>Connected</h3>
+          <p>Read, comment, and grow with an inspiring community of bloggers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-footer fade-in">
+    <div class="container">
+      <h2>Join Us</h2>
+      <p>
+        Be part of our growing community and start sharing your story today.
+      </p>
+      <a href="/signuppage" class="btn-join">Get Started</a>
+    </div>
+  </section>
+
+  <%- include("partials/footer") %>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="/javascripts/animations.js"></script>
+</body>
+
+</html>

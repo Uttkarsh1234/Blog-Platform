@@ -1,9 +1,8 @@
 function openModal(id) {
-    document.getElementById("modal-" + id).style.display = "flex";
+  document.getElementById(`modal-${id}`).style.display = 'flex';
 }
-
 function closeModal(id) {
-    document.getElementById("modal-" + id).style.display = "none";
+  document.getElementById(`modal-${id}`).style.display = 'none';
 }
 
 // Close modal when clicking outside content

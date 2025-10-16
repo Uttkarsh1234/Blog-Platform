@@ -1,0 +1,210 @@
+/* ===== Navbar Styling ===== */
+
+.navbar {
+  background: linear-gradient(90deg, #007bff, #00b4d8);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: white;
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.btn-create {
+  background: white;
+  color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-create:hover {
+  background: #f1f1f1;
+}
+
+.btn-login {
+  color: #007bff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  background: #1a1717;
+}
+
+/* Profile Menu */
+.profile-menu {
+  position: relative;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  transition: 0.3s;
+}
+
+.profile-icon:hover {
+  transform: scale(1.05);
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 0.8rem 1rem;
+  min-width: 180px;
+}
+
+.profile-dropdown.show {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.user-name {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.logout-btn {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.logout-btn:hover {
+  color: #007bff;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Footer Styling ===== */
+
+.footer {
+  background: linear-gradient(90deg, #007bff, #00b4d8);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons a {
+  color: white;
+  margin: 0 0.5rem;
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #e3f2fd;
+  transform: scale(1.2);
+}
+
+
+/* Navbar default (for blog pages, solid background) */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  z-index: 10;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* For home page, overlay style */
+body.page-home .navbar {
+  background: transparent;
+  color: #fff;
+}
+
+/* For other pages (blogs, new blog) */
+body.page-blogs .navbar {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body.page-blogs .nav-links li a {
+  color: #212529;
+}
+
+body.page-blogs .nav-links li a:hover {
+  color: #007bff;
+}
+
+body.page-blogs .logo {
+  color: #212529;
+}

@@ -76,6 +76,11 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/api/blog/:id", async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  res.json(blog);
+});
+
 // Blogs Page
 app.get("/blogs", async (req, res) => {
   let blogs = [];
@@ -114,6 +119,24 @@ app.get("/blogs/:del/delete", async (req, res) => {
   await Blog.findOneAndDelete({ _id: req.params.del });
   res.redirect("/blogs");
 });
+
+// About page
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+// Contact page
+app.get("/contact", (req, res) => {
+  res.render("contact");
+});
+
+// Handle contact form submission (optional: send email or store in DB)
+app.post("/contact", async (req, res) => {
+  // Example: just log for now
+  console.log(req.body);
+  res.send("Thanks for contacting us! We'll get back to you soon.");
+});
+
 
 // Login (JWT)
 app.post("/login", async (req, res) => {

@@ -3,61 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Blog Platform</title>
+  <title>Your Blogs - MyBlog</title>
+  
+  <!-- CSS Files -->
   <link rel="stylesheet" href="/stylesheets/style2.css">
+  <link rel="stylesheet" href="/stylesheets/animations.css">
+  <link rel="stylesheet" href="/stylesheets/navbar.css">
+  <link rel="stylesheet" href="/stylesheets/contact.css">
+
+
+
 </head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-  <div class="nav-container">
-    <h1 class="logo">MyBlog</h1>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/blogs">Blogs</a></li>
+<body class="page-blogs">
+  <div class="page-wrapper">
+    <%- include("partials/navbar") %>
 
-      <% if (user) { %>
-        <!-- Profile Icon instead of Logout link -->
-         <li><a href="/blogs/new">Create</a></li>
-        <li class="profile-menu">
-          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-               alt="Profile" class="profile-icon" onclick="toggleProfileMenu()" />
-
-          <!-- Dropdown -->
-          <div class="profile-dropdown" id="profileDropdown">
-            <p class="user-name">👋 Hello, <%= user.name %></p>
-            <a href="/logout" class="logout-btn">Logout</a>
-          </div>
-        </li>
-      <% } else { %>
-        <li><a href="/signuppage" class="btn-login">Login</a></li>
-      <% } %>
-    </ul>
-  </div>
-</nav>
-
-
-
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="hero-text">
-      <h1>Welcome to MyBlog</h1>
-      <p>Read and share amazing stories with the world.</p>
-    </div>
-  </header>
-
-  <!-- Blog List -->
-  <main class="container">
-    <div class="blog-list">
-      <%if(blogs.length > 0){%>
-        <h2 class="section-title">Latest Blogs</h2>
-        <% blogs.forEach((blog) => { %>
+    <main class="page-content">
+      <div class="container">
+        <% if(blogs.length > 0){ %>
+          <h2 class="section-title">Latest Blogs</h2>
+          <div class="blog-list">
+            <% blogs.forEach(blog => { %>
               <div class="blog-card" id="blog-<%= blog._id %>">
-                <h3><%= blog.title %></h3>
-                <p class="blog-meta">By <%= blog.author %> | <%= blog.date.toDateString() %></p>
-                <p class="blog-snippet"><%= blog.content.substring(0, 150) %>...</p>
-
-                <div class="blog-actions">
-                  <button class="read-more" onclick="openModal('<%= blog._id %>')">Read More</button>
+                <!-- <div class="card-image">
+                  <img src="https://source.unsplash.com/400x250/?blog,<%= blog.title %>" alt="<%= blog.title %>">
+                </div> -->
+                <div class="card-content">
+                  <h3><%= blog.title %></h3>
+                  <p class="blog-meta">By <%= blog.author %> | <%= blog.date.toDateString() %></p>
+                  <p class="blog-snippet"><%= blog.content.substring(0, 150) %>...</p>
+                  <div class="blog-actions">
+                    <button class="read-more" onclick="openModal('<%= blog._id %>')">Read More</button>
+                  </div>
                 </div>
               </div>
 
@@ -68,32 +45,29 @@
                   <h2><%= blog.title %></h2>
                   <p class="blog-meta">By <%= blog.author %> | <%= blog.date.toDateString() %></p>
                   <p><%= blog.content %></p>
-
                   <div class="modal-actions">
-                    <% if (user && user._id.toString() === blog.userId.toString()) { %>
-                      <a href="/blogs/<%= blog._id %>/edit" class="btn-edit">Edit</a>
-                      <form action="/blogs/<%= blog._id %>/delete" style="display:inline;">
-                        <button type="submit" class="btn-delete">Delete</button>
-                      </form>
-                  <% } %>
+                    <a href="/blogs/<%= blog._id %>/edit" class="btn-edit">Edit</a>
+                    <form action="/blogs/<%= blog._id %>/delete" style="display:inline;">
+                      <button type="submit" class="btn-delete">Delete</button>
+                    </form>
                   </div>
                 </div>
               </div>
-          <% }) %>
-      <% } else{ %>
-         <div class="no-blogs">
-      <h2>No Blogs Available 📝</h2>
-      <p>Looks like you haven’t created any blogs yet.</p>
-      <a href="/blogs/new" class="btn-create">Create Your First Blog</a>
-    </div>
-      <% } %>
-    </div>
-  </main>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <h2 class="no-blogs">No Blogs Available 😔</h2>
+        <% } %>
+      </div>
+    </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; <%= new Date().getFullYear() %> MyBlog. All rights reserved.</p>
-  </footer>
+    <%- include("partials/footer") %>
+  </div>
+  <script src="/javascripts/Blog.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- <script src="/javascripts/animations.js"></script> -->
+
 </body>
-<script src="/javascripts/Blog.js"></script>
+
 </html>

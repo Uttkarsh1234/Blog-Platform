@@ -1,0 +1,14 @@
+/* Reusable animation effects */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+.fade-in-up.delay-1s { animation-delay: 0.5s; }
+.fade-in-up.delay-2s { animation-delay: 1s; }
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
