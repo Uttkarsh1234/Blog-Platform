@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const session = require("express-session");
 const passport = require("passport");
+const community = require("./models/community");
 require("dotenv").config();
 require("./config/passport"); // your Google OAuth strategy file
 
@@ -139,6 +140,36 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
+app.get("/community", async (req,res)=>{
+  try {
+    const members = await community.find({ isCommunityMember: true });
+    res.render("community", { members });
+  } catch (err) {
+    console.error("Error fetching community members:", err);
+    res.status(500).send("Error loading community page");
+  }
+});
+
+app.post("/join-community", async (req,res)=>{
+  try{
+    if(!req.user) return res.redirect("/signuppage");
+
+    let member = await community.findOne({ email: req.user.email });
+    if (!member) {
+      await community.create({
+        name: req.user.name || "Anonymous",
+        email: req.user.email,
+        profilePic: req.user.profilePic || "https://i.ibb.co/4pDNDk1/avatar.png",
+        isCommunityMember: true
+      });
+    }
+    res.redirect("/community");
+  }catch (err) {
+    console.error("Join community error:", err);
+    res.status(500).send("Something went wrong joining the community.");
+  }
+
+})
 // Contact GET page (if you used contact.ejs)
 app.get('/contact', (req, res) => {
   res.render('contact', { user: req.user });

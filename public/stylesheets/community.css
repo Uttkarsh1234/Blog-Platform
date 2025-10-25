@@ -1,0 +1,262 @@
+/* 🌍 Community Page Styling */
+*{
+    padding: 0;
+    margin: 0;
+}
+body.page-community {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+  color: #222;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;
+  padding: 60px 20px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+  animation: fadeInUp 0.8s ease;
+}
+
+.community-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+  position: relative;
+  display: inline-block;
+}
+
+.community-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 80px;
+  height: 4px;
+  background: #007bff;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  animation: growLine 1s ease-in-out;
+}
+
+/* 🧑‍🤝‍🧑 Members Grid */
+.members {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  justify-items: center;
+}
+
+/* 💳 Member Card */
+.member-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 25px 20px;
+  text-align: center;
+  transition: all 0.4s ease;
+  transform: translateY(0);
+  animation: fadeInCard 0.8s ease both;
+  cursor: pointer;
+}
+
+.member-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* 👤 Member Avatar */
+.member-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #007bff;
+  transition: 0.4s ease;
+}
+
+.member-card:hover img {
+  transform: rotate(10deg) scale(1.05);
+  border-color: #0056b3;
+}
+
+/* 📝 Member Info */
+.member-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.member-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* 🧿 Join Section */
+.join-section {
+  margin-top: 60px;
+  padding: 40px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-radius: 20px;
+  color: white;
+  animation: fadeInUp 0.8s ease;
+}
+
+.join-section h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.join-section p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.join-section .btn-join {
+  background: white;
+  color: #007bff;
+  padding: 12px 28px;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.join-section .btn-join:hover {
+  background: #e6f0ff;
+  transform: scale(1.05);
+}
+
+/* ✨ Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growLine {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 80px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .community-title {
+    font-size: 2rem;
+  }
+
+  .member-card {
+    padding: 20px;
+  }
+
+  .join-section {
+    padding: 30px 20px;
+  }
+}
+
+/* ===== Footer Styling ===== */
+
+/* Footer should stay at the bottom */
+footer {
+  flex-shrink: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.95rem;
+  border-top: 3px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  animation: fadeInUp 0.8s ease;
+  top: 73vh;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons a {
+  color: white;
+  margin: 0 0.5rem;
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #e3f2fd;
+  transform: scale(1.2);
+}
+
+
+/* Navbar default (for blog pages, solid background) */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  z-index: 10;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* For home page, overlay style */
+body.page-home .navbar {
+  background: transparent;
+  color: #fff;
+}
+
+/* For other pages (blogs, new blog) */
+body.page-blogs .navbar {
+  background: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body.page-blogs .nav-links li a {
+  color: #212529;
+}
+
+body.page-blogs .nav-links li a:hover {
+  color: #007bff;
+}
+
+body.page-blogs .logo {
+  color: #212529;
+}

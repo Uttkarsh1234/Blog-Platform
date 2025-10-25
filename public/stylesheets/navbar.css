@@ -55,7 +55,6 @@
 }
 
 .btn-create {
-  background: white;
   color: #007bff;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -63,9 +62,9 @@
   transition: 0.3s;
 }
 
-.btn-create:hover {
-  background: #f1f1f1;
-}
+/* .btn-create:hover {
+  background: black;
+} */
 
 .btn-login {
   color: #007bff;
@@ -143,12 +142,21 @@
 
 /* ===== Footer Styling ===== */
 
-.footer {
-  background: linear-gradient(90deg, #007bff, #00b4d8);
+/* Footer should stay at the bottom */
+footer {
+  flex-shrink: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
   color: white;
   text-align: center;
-  padding: 1rem 0;
-  margin-top: 2rem;
+  padding: 20px 0;
+  font-size: 0.95rem;
+  border-top: 3px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  bottom: 0;
+  left: 0;
+  animation: fadeInUp 0.8s ease;
+  /* top: 73vh; */
 }
 
 .footer-container {

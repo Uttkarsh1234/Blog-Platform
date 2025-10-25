@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/community.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/stylesheets/navbar.css">
+</head>
+<body class="page-community">
+    <%- include("partials/navbar") %>
+    <h1 class="community-title">🌍 Blog Community</h1>
+    <div class="members">
+        <% members.forEach(member => { %>
+        <div class="member-card">
+            <img src="<%= member.profilePic %>" alt="<%= member.name %>">
+            <h3><%= member.name %></h3>
+            <p><%= member.bio || 'No bio yet.' %></p>
+            <p class="email"><%= member.email %></p>
+        </div>
+        <% }) %>
+    </div>
+    <footer class="footer">
+    <div class="footer-container">
+        <p>© <%= new Date().getFullYear() %> MyBlog | Made with ❤️ by Uttkarsh</p>
+        <div class="social-icons">
+        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
+    </footer>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
