@@ -21,6 +21,9 @@
 
   <section class="contact-main slide-up">
     <div class="container">
+      <% if (typeof req !== 'undefined' && req.query.sent === '1') { %>
+        <div class="contact-success">Thank you — your message has been sent.</div>
+      <% } %>
       <div class="contact-info">
         <h2>Get in Touch</h2>
         <p>
