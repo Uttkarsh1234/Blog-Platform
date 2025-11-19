@@ -21,7 +21,7 @@ const { sendContactMail } = require('./utils/mailer');
 // basic rate-limiter for contact form: max 5 requests per IP per hour
 const contactLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5,
+  max: 15,
   message: "Too many contact requests from this IP, please try again after an hour."
 });
 
