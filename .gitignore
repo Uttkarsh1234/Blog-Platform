@@ -1,3 +1,8 @@
+node_modules/
+.env
+/.env
+npm-debug.log
+.DS_Store
 # Ignore specific files
 config.json
 secret.txt

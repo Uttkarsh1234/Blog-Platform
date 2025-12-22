@@ -92,7 +92,7 @@ app.get("/", (req, res) => {
   if (req.user){
     const user = req.user;
     return res.render("index",{ user });
-  }
+  } 
   res.render("index");
 });
 
@@ -346,8 +346,11 @@ app.get("/logout", (req, res) => {
 });
 
 // ---------- SERVER ----------
-app.listen(3000, () => {
-  console.log("✅ Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+
+app.listen(PORT, HOST, () => {
+  console.log(`✅ Server running on http://${HOST}:${PORT}`);
 });
 
 
