@@ -116,6 +116,7 @@
 .user-name {
   font-weight: 600;
   margin-bottom: 0.5rem;
+  color: black;
 }
 
 .logout-btn {
@@ -124,6 +125,9 @@
   text-decoration: none;
 }
 
+.profile-dropdown a{
+  color: black;
+}
 .logout-btn:hover {
   color: #007bff;
 }

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/Students");
 
 const ContactSchema = new mongoose.Schema({
   name:        { type: String, required: true, trim: true },

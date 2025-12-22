@@ -1,3 +1,6 @@
+require("dotenv").config();
+const connectDB = require("./config/db")
+connectDB();
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -9,7 +12,6 @@ const jwt = require('jsonwebtoken');
 const session = require("express-session");
 const passport = require("passport");
 const community = require("./models/community");
-require("dotenv").config();
 require("./config/passport"); // your Google OAuth strategy file
 
 // Contact Mails
@@ -87,7 +89,10 @@ app.get("/auth/google/callback",
 
 // Home Page
 app.get("/", (req, res) => {
-  if (req.user) return res.redirect("/blogs");
+  if (req.user){
+    const user = req.user;
+    return res.render("index",{ user });
+  }
   res.render("index");
 });
 

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost:27017/Students");
 
 const EmployeeSchema = mongoose.Schema({
     title: { type: String, required: true },
