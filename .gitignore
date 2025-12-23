@@ -6,8 +6,6 @@ npm-debug.log
 # Ignore specific files
 config.json
 secret.txt
-package-lock.json
-package.json
 mongodb/
 .gitignore
 
