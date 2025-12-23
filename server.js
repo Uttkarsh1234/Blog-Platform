@@ -1,6 +1,7 @@
 require("dotenv").config();
 const connectDB = require("./config/db")
 connectDB();
+const MongoStore = require("connect-mongo");
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -30,10 +31,18 @@ const contactLimiter = rateLimit({
 
 // ---------- Middleware Setup ----------
 app.use(session({
-  secret: "mysecret",
+  secret: process.env.SESSION_SECRET || "mysecret",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    collectionName: "sessions"
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
+  }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
