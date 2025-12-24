@@ -1,7 +1,6 @@
 require("dotenv").config();
 const connectDB = require("./config/db")
 connectDB();
-const MongoStore = require("connect-mongo")(session);
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -33,11 +32,7 @@ const contactLimiter = rateLimit({
 app.use(session({
   secret: process.env.SESSION_SECRET || "mysecret",
   resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({
-    mongoUrl: process.env.MONGO_URI,
-    collectionName: "sessions"
-  })
+  saveUninitialized: false
 }));
 
 
