@@ -50,7 +50,7 @@ app.use(async (req, res, next) => {
   try{
     const token = req.cookies.token;
     if (token) {
-          const decoded = jwt.verify(token, 'sshetuojslkdeuffvmdhfvnefjveu');
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
           const user = await Usermodel.findOne({ email: decoded.email });
           req.user = user;
           res.locals.user = user;
