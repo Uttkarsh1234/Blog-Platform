@@ -1,7 +1,7 @@
 require("dotenv").config();
 const connectDB = require("./config/db")
 connectDB();
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")(session);
 const express = require('express');
 const app = express();
 const path = require('path');
