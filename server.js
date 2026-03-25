@@ -74,7 +74,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); 
 
 // ---------- GOOGLE OAUTH ROUTES ----------
 app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
