@@ -156,7 +156,7 @@ app.get("/community", async (req,res)=>{
   }
 });
 
-app.post("/join-community", async (req,res)=>{
+app.get("/join-community", async (req,res)=>{
   try{
     if(!req.user) return res.redirect("/signuppage");
 
