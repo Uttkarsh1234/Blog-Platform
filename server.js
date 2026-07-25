@@ -156,7 +156,7 @@ app.get("/community", async (req,res)=>{
   }
 });
 
-app.post("/join-community", async (req,res)=>{
+app.get("/join-community", async (req,res)=>{
   try{
     if(!req.user) return res.redirect("/signuppage");
 
@@ -210,11 +210,11 @@ app.post('/send-message', contactLimiter, async (req, res) => {
 
     const nodemailer = require('nodemailer');
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_SECURE === "true",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_USER, // fixed Gmail account (app account)
+        user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
       }
     });
