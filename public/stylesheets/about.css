@@ -28,7 +28,6 @@ body.page-about {
 }
 
 .about-content {
-  background: rgba(0, 0, 0, 0.4);
   position: relative;
   z-index: 2;
   color: white;
@@ -139,7 +138,6 @@ body.page-about {
 
 /* Animations */
 .fade-in {
-  opacity: 0;
   transform: translateY(40px);
   animation: fadeInUp 1s forwards;
 }
