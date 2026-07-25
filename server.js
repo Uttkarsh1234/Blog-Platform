@@ -138,7 +138,7 @@ app.get("/blogs/:ed/edit", async (req, res) => {
     });
 
     if (!upd) {
-      return res.status(403).send("Unauthorized: You cannot edit this blog.");
+      return alert("Unauthorized: You cannot edit this blog.");
     }
 
     res.render("edit", { upd });
@@ -156,7 +156,7 @@ app.get("/blogs/:del/delete", async (req, res) => {
   });
 
   if (!blog) {
-    return res.status(403).send("Unauthorized");
+    return alert("You cannot delete this blog.");;
   }
   await Blog.findOneAndDelete({ _id: req.params.del });
   res.redirect("/blogs");
