@@ -182,7 +182,7 @@ app.get('/contact', (req, res) => {
 });
 
 // Handle contact submissions
-app.post('/send-message', contactLimiter, async (req, res) => {
+app.post('/send-message', async (req, res) => {
   try {
     const { name = '', email = '', message = '' } = req.body;
 
