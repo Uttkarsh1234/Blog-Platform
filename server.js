@@ -131,12 +131,33 @@ app.get("/signuppage", (req, res) => {
 
 // Edit Blog
 app.get("/blogs/:ed/edit", async (req, res) => {
-  const upd = await Blog.findOne({ _id: req.params.ed });
-  res.render("edit", { upd });
+    try {
+    const upd = await Blog.findOne({
+      _id: req.params.ed,
+      userId: req.user._id
+    });
+
+    if (!upd) {
+      return res.status(403).send("Unauthorized: You cannot edit this blog.");
+    }
+
+    res.render("edit", { upd });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
 });
 
 // Delete Blog
 app.get("/blogs/:del/delete", async (req, res) => {
+  const blog = await Blog.findOne({
+    _id: req.params.del,
+    userId: req.user._id
+  });
+
+  if (!blog) {
+    return res.status(403).send("Unauthorized");
+  }
   await Blog.findOneAndDelete({ _id: req.params.del });
   res.redirect("/blogs");
 });
