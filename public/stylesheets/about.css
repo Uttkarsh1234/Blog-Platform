@@ -36,8 +36,9 @@ body.page-about {
 
 .about-content h1 {
   font-size: 3.5rem;
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.8);
 }
 
 .about-content h1 span {
@@ -45,8 +46,8 @@ body.page-about {
 }
 
 .about-content p {
-  font-size: 1.2rem;
-  line-height: 1.7;
+  color: #fff;
+  text-shadow: 1px 1px 8px rgba(0,0,0,0.7);
 }
 
 /* Mission Section */
@@ -139,19 +140,19 @@ body.page-about {
 /* Animations */
 .fade-in {
   transform: translateY(40px);
-  animation: fadeInUp 1s forwards;
+  animation: fadeInUp 1s ease forwards;
 }
 
 .slide-up {
   opacity: 0;
   transform: translateY(60px);
-  animation: fadeInUp 1.2s forwards;
+  animation: fadeInUp 1.2s ease forwards;
 }
 
 .float-in {
   opacity: 0;
   transform: translateY(50px);
-  animation: fadeInUp 1s forwards;
+  animation: fadeInUp 1s ease forwards;
 }
 
 .float-in.delay-1 {
@@ -163,6 +164,10 @@ body.page-about {
 }
 
 @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
