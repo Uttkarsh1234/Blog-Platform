@@ -18,7 +18,11 @@ require("./config/passport"); // your Google OAuth strategy file
 const rateLimit = require('express-rate-limit');
 const validator = require('validator');
 const ContactMessage = require('./models/meassage');
-const { sendContactMail } = require('./utils/mailer');
+// const { sendContactMail } = require('./utils/mailer');
+
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // basic rate-limiter for contact form: max 5 requests per IP per hour
 const contactLimiter = rateLimit({
@@ -203,68 +207,64 @@ app.get('/contact', (req, res) => {
 });
 
 // Handle contact submissions
-app.post('/send-message', async (req, res) => {
-  try {
-    const { name = '', email = '', message = '' } = req.body;
+app.post("/send-message", contactLimiter, async (req, res) => {
 
-    const senderEmail = req.user?.email || email; // if logged in, use their email; else form email
-    const senderName = req.user?.name || name;
+    try {
 
-    // Basic validation
-    if (!senderName.trim() || !senderEmail.trim() || !message.trim()) {
-      return res.status(400).send('Please fill all fields.');
+        const { name="", email="", message="" } = req.body;
+
+        const senderEmail = req.user?.email || email;
+        const senderName = req.user?.name || name;
+
+        if (!senderName.trim() || !senderEmail.trim() || !message.trim()) {
+            return res.status(400).send("Please fill all fields.");
+        }
+
+        const contact = await ContactMessage.create({
+            name: senderName,
+            email: senderEmail,
+            message: message,
+            ip: req.ip
+        });
+
+        await resend.emails.send({
+            from: "My Blog <onboarding@resend.dev>",
+            to: process.env.CONTACT_TO,
+            replyTo: senderEmail,
+            subject: `📩 New Contact Message from ${senderName}`,
+            html: `
+                <h2>New Contact Message</h2>
+
+                <p><b>Name:</b> ${senderName}</p>
+
+                <p><b>Email:</b> ${senderEmail}</p>
+
+                <p><b>Message:</b></p>
+
+                <p>${message}</p>
+            `
+        });
+
+        await resend.emails.send({
+            from: "My Blog <onboarding@resend.dev>",
+            to: senderEmail,
+            subject: "We've received your message",
+            html: `
+              <h2>Thank you for contacting My Blog!</h2>
+              <p>Hi ${senderName},</p>
+              <p>We have received your message and will get back to you soon.</p>
+            `,
+        });
+        return res.redirect("/contact-response");
+
+    } catch(err) {
+
+        console.log(err);
+
+        return res.status(500).send("Something went wrong.");
+
     }
-    if (!validator.isEmail(senderEmail)) {
-      return res.status(400).send('Please provide a valid email address.');
-    }
-    if (message.length > 5000) {
-      return res.status(400).send('Message is too long.');
-    }
 
-    // Save to DB
-     const contact = await ContactMessage.create({
-      name: senderName.trim(),
-      email: senderEmail.trim(),
-      message: message.trim(),
-      ip: req.ip
-    });
-
-    const nodemailer = require('nodemailer');
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: Number(process.env.EMAIL_PORT),
-      secure: process.env.EMAIL_SECURE === true,
-      connectionTimeout: 30000,
-      greetingTimeout: 30000,
-      socketTimeout: 30000,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-
-    // ✅ Compose the email dynamically
-    const mailOptions = {
-      from: `"${senderName}" <${process.env.EMAIL_USER}>`, // use your app account, but show user’s name
-      replyTo: senderEmail, // <-- this allows receiver to reply directly to the user
-      to: process.env.CONTACT_TO,
-      subject: `📩 New Contact Message from ${senderName}`,
-      html: `
-        <h3>New Message from ${senderName}</h3>
-        <p><strong>Email:</strong> ${senderEmail}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    console.log(`✅ Message sent from ${senderEmail}`);
-    return res.redirect('/contact-response');
-  } catch (err) {
-    console.error('❌ Contact submission error:', err);
-    return res.status(500).send('Something went wrong. Try again later.');
-  }
 });
 
 // ✅ Success route (after form submission)
@@ -274,12 +274,6 @@ app.get('/contact-response', (req, res) => {
     message: "Thanks for contacting us! We'll get back to you soon."
   });
 });
-
-// Handle contact form submission (optional: send email or store in DB)
-
-
-
-
 
 // Login (JWT)
 app.post("/login", async (req, res) => {
@@ -377,7 +371,6 @@ const HOST = process.env.HOST || '0.0.0.0';
 app.listen(PORT, HOST, () => {
   console.log(`✅ Server running on http://${HOST}:${PORT}`);
 });
-
 
 
 
