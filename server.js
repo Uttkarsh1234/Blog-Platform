@@ -23,7 +23,7 @@ const ContactMessage = require('./models/meassage');
 const { Resend } = require("resend");
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-
+app.set('trust proxy',1);
 // basic rate-limiter for contact form: max 5 requests per IP per hour
 const contactLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
