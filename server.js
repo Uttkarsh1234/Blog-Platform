@@ -293,6 +293,7 @@ app.post("/login", async (req, res) => {
 
 // Signup (JWT)
 app.post("/signup", (req, res) => {
+  if(req.user)res.redirect("/");
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(req.body.password, salt, async (err, hash) => {
       await Usermodel.create({
