@@ -228,7 +228,7 @@ app.post("/send-message", contactLimiter, async (req, res) => {
         });
 
         await resend.emails.send({
-            from: "My Blog <onboarding@resend.dev>",
+            from: "My Blog <onboarding@myblogii.com>",
             to: process.env.CONTACT_TO,
             replyTo: senderEmail,
             subject: `📩 New Contact Message from ${senderName}`,
@@ -246,7 +246,7 @@ app.post("/send-message", contactLimiter, async (req, res) => {
         });
 
         await resend.emails.send({
-            from: "My Blog <onboarding@resend.dev>",
+            from: "My Blog <onboarding@myblogii.com>",
             to: senderEmail,
             subject: "We've received your message",
             html: `
